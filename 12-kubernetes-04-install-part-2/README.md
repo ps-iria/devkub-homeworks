@@ -11,15 +11,15 @@
 
 Машины подняты в Yandex Cloud
 
-![](vscode-remote://wsl%2Bubuntu-22.04/mnt/c/dev/devkub-homeworks/12-kubernetes-04-install-part-2/yc.png)
+![](12-kubernetes-04-install-part-2/yc.png)
 
-![](vscode-remote://wsl%2Bubuntu-22.04/mnt/c/dev/devkub-homeworks/12-kubernetes-04-install-part-2/cp1.png)
+![](12-kubernetes-04-install-part-2/cp1.png)
 
 Файлы конфигураций:
-[hosts.yml](vscode-remote://wsl%2Bubuntu-22.04/mnt/c/dev/devkub-homeworks/12-kubernetes-04-install-part-2/mycluster/hosts.yaml)
+[hosts.yml](12-kubernetes-04-install-part-2/mycluster/hosts.yaml)
 
 В кластере сделана настройка supplementary_addresses_in_ssl_keys
-[k8s-cluster](vscode-remote://wsl%2Bubuntu-22.04/mnt/c/dev/devkub-homeworks/12-kubernetes-04-install-part-2/mycluster/group_vars/k8s_cluster/k8s-cluster.yml)
+[k8s-cluster](12-kubernetes-04-install-part-2/mycluster/group_vars/k8s_cluster/k8s-cluster.yml)
 
 ## Задание 2 (*): подготовить и проверить инвентарь для кластера в AWS
 Часть новых проектов хотят запускать на мощностях AWS. Требования похожи:
