@@ -11,15 +11,15 @@
 
 Машины подняты в Yandex Cloud
 
-![](12-kubernetes-04-install-part-2/yc.png)
+![](yc.png)
 
-![](12-kubernetes-04-install-part-2/cp1.png)
+![](cp1.png)
 
 Файлы конфигураций:
-[hosts.yml](12-kubernetes-04-install-part-2/mycluster/hosts.yaml)
+[hosts.yml](mycluster/hosts.yaml)
 
 В кластере сделана настройка supplementary_addresses_in_ssl_keys
-[k8s-cluster](12-kubernetes-04-install-part-2/mycluster/group_vars/k8s_cluster/k8s-cluster.yml)
+[k8s-cluster](mycluster/group_vars/k8s_cluster/k8s-cluster.yml)
 
 ## Задание 2 (*): подготовить и проверить инвентарь для кластера в AWS
 Часть новых проектов хотят запускать на мощностях AWS. Требования похожи:
