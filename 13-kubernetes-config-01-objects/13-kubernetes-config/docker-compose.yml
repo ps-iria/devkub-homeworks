@@ -1,13 +1,15 @@
-version: "3.7"
+version: "3.9"
 
 services:
   frontend:
     build: ./frontend
+    image: psiria/frontend:latest
     ports:
       - 8000:80
 
   backend:
     build: ./backend
+    image: psiria/backend:latest
     links:
       - db
     ports:
