@@ -20,11 +20,18 @@ spec:
           limits:
             memory: "200Mi"
             cpu: "500m"
+        volumeMounts:
+        - name: pv
+          mountPath: "/static/"
         ports:
         - containerPort: 9000
         env:
         - name: DATABASE_URL
           value: postgres://postgres:postgres@db:5432/news
+      volumes: 
+        - name: pv
+          persistentVolumeClaim:
+            claimName: pvc
 ---
 apiVersion: v1
 kind: Service

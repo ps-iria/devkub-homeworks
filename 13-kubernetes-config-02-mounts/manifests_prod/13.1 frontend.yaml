@@ -20,11 +20,18 @@ spec:
           limits:
             memory: "200Mi"
             cpu: "500m"
+        volumeMounts:
+        - name: pv
+          mountPath: "/static/"
         ports:
         - containerPort: 80
         env: 
         - name: BASE_URL
           value: backend:9000
+      volumes: 
+        - name: pv
+          persistentVolumeClaim:
+            claimName: pvc
 ---
 apiVersion: v1
 kind: Service

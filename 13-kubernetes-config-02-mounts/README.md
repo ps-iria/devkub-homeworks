@@ -35,12 +35,29 @@
 
 ![screen](img1.png)
 
+![get po,pv,pvc](img2.png)
+
 ## Задание 2: подключить общую папку для прода
 Поработав на stage, доработки нужно отправить на прод. В продуктиве у нас контейнеры крутятся в разных подах, поэтому потребуется PV и связь через PVC. Сам PV должен быть связан с NFS сервером. Требования:
 * все бекенды подключаются к одному PV в режиме ReadWriteMany;
 * фронтенды тоже подключаются к этому же PV с таким же режимом;
 * файлы, созданные бекендом, должны быть доступны фронту.
 
+## Ответ:
+
+[frontend](manifests_prod/13.1%20frontend.yaml)
+
+[backend](manifests_prod/13.1%20backend.yaml)
+
+[db](manifests_prod/13.1%20db.yaml)
+
+[pv](manifests_prod/pv.yaml)
+
+[pvc](manifests_prod/pvc.yaml)
+
+![get po,pv,pvc](img3.png)
+
+![screen](img4.png)
 ---
 
 ### Как оформить ДЗ?
