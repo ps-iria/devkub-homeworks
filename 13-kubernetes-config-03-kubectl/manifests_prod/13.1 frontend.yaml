@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: prod
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: psiria/frontend
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "200Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: pv
+          mountPath: "/static/"
+        ports:
+        - containerPort: 80
+        env: 
+        - name: BASE_URL
+          value: backend:9000
+      volumes: 
+        - name: pv
+          persistentVolumeClaim:
+            claimName: pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: prod
+spec:
+  selector:
+    app: frontend
+  ports:
+    - name: frontend
+      protocol: TCP
+      port: 8000
+      targetPort: 80
+      nodePort: 32180
+  type: NodePort

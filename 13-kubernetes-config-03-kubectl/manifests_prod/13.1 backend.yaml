@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: prod
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: psiria/backend
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "200Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: pv
+          mountPath: "/static/"
+        ports:
+        - containerPort: 9000
+        env:
+        - name: DATABASE_URL
+          value: postgres://postgres:postgres@db:5432/news
+      volumes: 
+        - name: pv
+          persistentVolumeClaim:
+            claimName: pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: prod
+spec:
+  selector:
+    app: backend
+  ports:
+    - name: backend
+      protocol: TCP
+      port: 9090
+      targetPort: 9000
+      nodePort: 31900
+  type: NodePort
