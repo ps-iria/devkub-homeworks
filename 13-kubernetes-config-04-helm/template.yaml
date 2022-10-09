@@ -1,0 +1,172 @@
+---
+# Source: first/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-release-name
+spec:
+  storageClassName: "nfs"
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 2Gi
+  hostPath:
+    path: /data/pv
+---
+# Source: first/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-release-name
+  namespace: default
+spec:
+  storageClassName: "nfs"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+---
+# Source: first/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: db-release-name
+  name: db-release-name
+  namespace: default
+spec:
+  selector:
+    app: db-release-name
+  ports:
+  - name: db-release-name
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
+  type: ClusterIP
+---
+# Source: first/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-release-name
+  namespace: default
+spec:
+  selector:
+    app: backend-release-name
+  ports:
+    - name: backend-release-name
+      protocol: TCP
+      port: 9000
+      targetPort: 9000
+  type: ClusterIP
+---
+# Source: first/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-release-name
+  namespace: default
+spec:
+  selector:
+    app: frontend-release-name
+  ports:
+    - name: frontend-release-name
+      protocol: TCP
+      port: 8000
+      targetPort: 80
+  type: ClusterIP
+---
+# Source: first/templates/backend.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-release-name
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: backend-release-name
+  template:
+    metadata:
+      labels:
+        app: backend-release-name
+    spec:
+      containers:
+      - name: backend-release-name
+        image: psiria/backend
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: pv
+          mountPath: /static/
+        ports:
+        - containerPort: 9000
+        env:
+        - name: DATABASE_URL
+          value: postgres://postgres:postgres@db-release-name:5432/news
+      volumes:
+        - name: pv
+          persistentVolumeClaim:
+            claimName: pvc-release-name
+---
+# Source: first/templates/frontend.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-release-name
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: frontend-release-name
+  template:
+    metadata:
+      labels:
+        app: frontend-release-name
+    spec:
+      containers:
+      - name: frontend-release-name
+        image: psiria/frontend
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: pv
+          mountPath: /static/
+        ports:
+        - containerPort: 8000
+        env:
+        - name: BASE_URL
+          value: http://backend:9000
+      volumes:
+        - name: pv
+          persistentVolumeClaim:
+            claimName: pvc-release-name
+---
+# Source: first/templates/db.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: db-release-name
+  name: db-release-name
+  namespace: default
+spec:  
+  selector:
+    matchLabels:
+      app: db-release-name
+  serviceName: db-release-name
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: db-release-name
+    spec:
+      containers:
+        - name: db-release-name
+          image: postgres:13-alpine
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: news
