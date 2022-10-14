@@ -3,7 +3,7 @@ local params = p.components;
 
 [
     {
-        apiVersion: 'v1',
+        apiVersion: 'apps/v1',
         kind: 'Deployment',
         metadata: {
             name: 'backend',
@@ -31,7 +31,7 @@ local params = p.components;
                             image: params.backend.image,
                             volumeMounts: [
                                 {
-                                    name: 'pv',
+                                    name: 'pvc',
                                     mountPath: params.volumeMounts.mountPath,
                                 },
                             ],
@@ -40,7 +40,7 @@ local params = p.components;
                                     containerPort: params.backend.port,
                                 },
                             ],
-                            environment: [
+                            env: [
                                 {
                                     name: 'DATABASE_URL',
                                     value: 'postgres://' + params.db.postgres_user + ':' + params.db.postgres_password + '@db:' + params.db.port + '/' + params.db.postgres_db
@@ -50,8 +50,10 @@ local params = p.components;
                     ],
                     volumes: [
                             {
-                                name: 'pv',
-                                persistentVolumeClaim: params.pvc.claimName,
+                                name: 'pvc',
+                                persistentVolumeClaim: {
+                                    claimName: params.pvc.claimName,
+                                },
                             },
                         ],
                 },

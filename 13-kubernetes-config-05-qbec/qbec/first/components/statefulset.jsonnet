@@ -4,7 +4,7 @@ local params = p.components;
 
 [
   {
-    apiVersion: 'v1',
+    apiVersion: 'apps/v1',
     kind: 'StatefulSet',
     metadata: {
       name: 'db',
@@ -23,34 +23,35 @@ local params = p.components;
             app: 'db',
           },
         },
+        spec: {
+          containers: [
+            {
+              name: 'db',
+              image: params.db.image,
+              ports: [
+                {
+                  containerPort: params.db.port
+                },
+              ],
+              env: [
+                {
+                  name: 'POSTGRES_USER',
+                  value: params.db.postgres_user
+                },
+                {
+                  name: 'POSTGRES_PASSWORD',
+                  value: params.db.postgres_password
+                },
+                {
+                  name: 'POSTGRES_DB',
+                  value: params.db.postgres_db
+                },
+              ],
+            },
+          ],
+        },
       },
-      spec: {
-        containers: [
-          {
-            name: 'db',
-            image: params.db.image,
-            ports: [
-              {
-                containerPort: params.db.port
-              },
-            ],
-            environment: [
-              {
-                name: 'POSTGRES_USER',
-                value: params.db.postgres_user
-              },
-              {
-                name: 'POSTGRES_PASSWORD',
-                value: params.db.postgres_password
-              },
-              {
-                name: 'POSTGRES_DB',
-                value: params.db.postgres_db
-              },
-            ],
-          },
-        ],
-      },
+      
     },
   },
 ]

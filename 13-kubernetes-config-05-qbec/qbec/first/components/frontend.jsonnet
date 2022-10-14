@@ -3,7 +3,7 @@ local params = p.components;
 
 [
     {
-        apiVersion: 'v1',
+        apiVersion: 'apps/v1',
         kind: 'Deployment',
         metadata: {
             name: 'frontend',
@@ -31,7 +31,7 @@ local params = p.components;
                             image: params.frontend.image,
                             volumeMounts: [
                                 {
-                                    name: 'pv',
+                                    name: 'pvc',
                                     mountPath: params.volumeMounts.mountPath,
                                 },
                             ],
@@ -40,7 +40,7 @@ local params = p.components;
                                     containerPort: params.frontend.port,
                                 },
                             ],
-                            environment: [
+                            env: [
                                 {
                                     name: 'BASE_URL',
                                     value: params.frontend.BASE_URL
@@ -50,8 +50,10 @@ local params = p.components;
                     ],
                     volumes: [
                             {
-                                name: 'pv',
-                                persistentVolumeClaim: params.pvc.claimName,
+                                name: 'pvc',
+                                persistentVolumeClaim: {
+                                    claimName: params.pvc.claimName,
+                                },
                             },
                         ],
                 },

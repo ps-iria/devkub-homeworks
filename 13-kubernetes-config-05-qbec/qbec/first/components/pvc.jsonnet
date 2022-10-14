@@ -3,25 +3,6 @@ local params = p.components;
 
 [
     {
-        kind: 'PersistentVolume',
-        apiVersion: 'v1',
-        metadata: {
-            name: 'pv',
-        },
-        spec: {
-            storageClassName: 'nfs',
-            accessModes: [
-                'ReadWriteMany',
-            ],
-            capacity: {
-                storage: params.pvc.storage
-            },
-            hostPath: {
-                path: 'data/pv'
-            },
-        },
-    },
-    {
         kind: 'PersistentVolumeClaim',
         apiVersion: 'v1',
         metadata: {

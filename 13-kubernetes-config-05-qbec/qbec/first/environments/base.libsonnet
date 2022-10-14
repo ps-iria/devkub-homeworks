@@ -22,7 +22,7 @@
       port: 8000,
     },
     volumeMounts: {
-      mountPath: '/static/',
+      mountPath: '/static',
     },
     pvc: {
       claimName: 'pvc',

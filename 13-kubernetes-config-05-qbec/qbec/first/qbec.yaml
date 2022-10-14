@@ -6,11 +6,11 @@ spec:
   environments:
     default:
       defaultNamespace: default
-      server: https://127.0.0.1:64213
+      server: https://127.0.0.1:60592
     prod:
       defaultNamespace: prod
-      server: https://127.0.0.1:64213
+      server: https://127.0.0.1:60592
     stage:
       defaultNamespace: stage
-      server: https://127.0.0.1:64213
+      server: https://127.0.0.1:60592
   vars: {}
