@@ -1,0 +1,28 @@
+postgres:
+  image: postgres:13-alpine
+  replicas: 1
+  port: 5432
+  dbname: news
+  dbuser: postgres
+  dbpassword: postgres
+  type: ClusterIP
+
+backend:
+  image: psiria/backend
+  replicas: 1
+  port: 9000
+  type: ClusterIP
+
+frontend:
+  image: psiria/frontend
+  BASE_URL: http://backend
+  replicas: 1
+  port: 8000
+  type: ClusterIP
+
+volumeMounts:
+  mountPath: /static/
+
+pvc:
+  claimName: pvc
+  storage: 2Gi

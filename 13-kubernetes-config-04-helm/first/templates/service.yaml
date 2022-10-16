@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: db-{{ .Release.Name }}
+  name: db-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: db-{{ .Release.Name }}
+  ports:
+  - name: db-{{ .Release.Name }}
+    protocol: TCP
+    port: {{ .Values.postgres.port | default 5432 }}
+    targetPort: {{ .Values.postgres.port | default 5432 }}
+  type: {{ .Values.postgres.type }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: backend-{{ .Release.Name }}
+  ports:
+    - name: backend-{{ .Release.Name }}
+      protocol: TCP
+      port: {{ .Values.backend.port | default 9000}}
+      targetPort: {{ .Values.backend.port | default 9000}}
+  type: {{ .Values.backend.type }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: frontend-{{ .Release.Name }}
+  ports:
+    - name: frontend-{{ .Release.Name }}
+      protocol: TCP
+      port: {{ .Values.frontend.port | default 8000 }}
+      targetPort: 80
+  type: {{ .Values.frontend.type }}
