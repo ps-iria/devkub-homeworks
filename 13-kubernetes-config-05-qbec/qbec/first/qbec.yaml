@@ -6,11 +6,15 @@ spec:
   environments:
     default:
       defaultNamespace: default
-      server: https://127.0.0.1:60592
+      server: https://127.0.0.1:11949
     prod:
       defaultNamespace: prod
-      server: https://127.0.0.1:60592
+      server: https://127.0.0.1:11949
+      includes:
+        - endpoint
     stage:
       defaultNamespace: stage
-      server: https://127.0.0.1:60592
+      server: https://127.0.0.1:11949
   vars: {}
+  excludes:
+    - endpoint
